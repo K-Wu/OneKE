@@ -1,4 +1,7 @@
-from langchain.prompts import PromptTemplate
+try:
+    from langchain.prompts import PromptTemplate
+except ImportError:
+    from langchain_core.prompts import PromptTemplate
 from .prompt_example import *
 
 # ==================================================================== #
