@@ -7,7 +7,7 @@ agent:
   default_re: Extract Relationships between Named Entities in the given text.
   default_ee: Extract the Events in the given text.
   default_triple: Extract the Triples (subject, relation, object) from the given text, hope that all the relationships for each entity can be extracted.
-  chunk_token_limit: 1024
+  chunk_token_limit: 8192
   mode:
     quick:
       schema_agent: get_deduced_schema

@@ -111,3 +111,26 @@ class ChemicalSubstance(BaseModel):
 
 class ChemicalList(BaseModel):
   chemicals: List[ChemicalSubstance] = Field(description="List of chemicals")
+
+# ------------- Narrative Event Extraction (Three-Body) ------------- #
+class NarrativeEvent(BaseModel):
+    event_type: str = Field(description="Event category: action, dialogue, state_change, discovery, conflict, or decision")
+    predicate: str = Field(description="The main verb or action phrase")
+    agent: str = Field(description="Who performs the action (character name, group, or 'narrator')")
+    patient: str = Field(description="Who or what is affected by the action, or 'none'")
+    temporal: str = Field(description="When it happens: explicit time reference from the text, or 'unspecified'")
+    location: str = Field(description="Where it happens: explicit location from the text, or 'unspecified'")
+    importance: str = Field(description="'major' if plot-critical, 'minor' otherwise")
+
+class NarrativeEventList(BaseModel):
+    events: List[NarrativeEvent] = Field(description="Chronological list of narrative events extracted from the text")
+
+# ------------- WeRead Reader Reaction Analysis ------------- #
+class ReaderReaction(BaseModel):
+    topic: str = Field(description="What aspect or theme the reader discusses")
+    referenced_characters: List[str] = Field(description="Character names mentioned in the comment")
+    sentiment: str = Field(description="Overall sentiment: positive, negative, neutral, or mixed")
+    reaction_type: str = Field(description="Type of comment: analysis, emotional_reaction, humor, question, or criticism")
+
+class ReaderReactionList(BaseModel):
+    reactions: List[ReaderReaction] = Field(description="List of reader reactions extracted from WeRead comments")

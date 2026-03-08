@@ -2,7 +2,7 @@
 Surpported Models.
 Supports:
 - Open Source:LLaMA3, Qwen2.5, MiniCPM3, ChatGLM4
-- Closed Source: ChatGPT, DeepSeek
+- Closed Source: ChatGPT, DeepSeek, Claude
 """
 
 from transformers import pipeline
@@ -11,10 +11,17 @@ import torch
 import openai
 import os
 from openai import OpenAI
+try:
+    import anthropic
+except ImportError:
+    anthropic = None
 
-# Set proxy for requests
-os.environ['http_proxy'] = 'http://127.0.0.1:7890'
-os.environ['https_proxy'] = 'http://127.0.0.1:7890'
+# Proxy note: the original code hardcoded os.environ['http_proxy'] =
+# 'http://127.0.0.1:7890' (Clash default) for accessing OpenAI/HuggingFace
+# from mainland China. This was removed because it breaks non-China setups.
+# If you need a proxy, set http_proxy/https_proxy env vars externally:
+#   $env:https_proxy = "http://127.0.0.1:7890"   # PowerShell
+#   export https_proxy=http://127.0.0.1:7890      # bash
 
 # The inferencing code is taken from the official documentation
 
@@ -251,6 +258,33 @@ class DeepSeek(BaseEngine):
             stop=None
         )
         return response.choices[0].message.content
+
+class Claude(BaseEngine):
+    def __init__(self, model_name_or_path: str, api_key: str = "", base_url: str = ""):
+        self.name = "Claude"
+        self.model = model_name_or_path
+        self.temperature = 0.2
+        self.top_p = 0.9
+        self.max_tokens = 16384
+        if anthropic is None:
+            raise ImportError("anthropic package is required for Claude support. Install with: pip install anthropic")
+        self.api_key = api_key if api_key != "" else os.environ.get("ANTHROPIC_AUTH_TOKEN", "")
+        self.base_url = base_url if base_url != "" else os.environ.get("ANTHROPIC_BASE_URL", "https://api.anthropic.com")
+        if not self.api_key:
+            raise ValueError("Claude API key must be provided via api_key parameter or ANTHROPIC_AUTH_TOKEN environment variable")
+        self.client = anthropic.Anthropic(api_key=self.api_key, base_url=self.base_url)
+
+    def get_chat_response(self, input):
+        response = self.client.messages.create(
+            model=self.model,
+            max_tokens=self.max_tokens,
+            temperature=self.temperature,
+            messages=[
+                {"role": "user", "content": input},
+            ],
+        )
+        return response.content[0].text
+
 
 class LocalServer(BaseEngine):
     def __init__(self, model_name_or_path: str, base_url="http://localhost:8000/v1"):

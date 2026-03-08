@@ -1,0 +1,14 @@
+model:
+  category: Claude  # model category, chosen from ChatGPT, DeepSeek, Claude, LLaMA, Qwen, ChatGLM, MiniCPM, OneKE.
+  model_name_or_path: aws/anthropic/bedrock-claude-opus-4-6 # model name for NVIDIA inference API
+  api_key: ""  # leave empty to read from ANTHROPIC_AUTH_TOKEN environment variable
+  base_url: ""  # leave empty to read from ANTHROPIC_BASE_URL environment variable
+
+extraction:
+  task: EE # task type, chosen from Base, NER, RE, EE.
+  text: UConn Health , an academic medical center , says in a media statement that it identified approximately 326,000 potentially impacted individuals whose personal information was contained in the compromised email accounts.
+  constraint: {"phishing": ["damage amount", "attack pattern", "tool", "victim", "place", "attacker", "purpose", "trusted entity", "time"], "data breach": ["damage amount", "attack pattern", "number of data", "number of victim", "tool", "compromised data", "victim", "place", "attacker", "purpose", "time"]}
+  use_file: false
+  mode: quick # extraction mode, chosen from quick, standard, customized.
+  update_case: false
+  show_trajectory: false

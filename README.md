@@ -630,6 +630,7 @@ You can choose from various open-source or proprietary model APIs to perform inf
   | ***API Service*** |   |
   | OpenAI |  A series of GPT foundation models offered by OpenAI, such as GPT-3.5 and GPT-4-turbo, which are renowned for their outstanding capabilities in natural language processing. |
   | DeepSeek | High-performance LLMs that have demonstrated exceptional capabilities in both English and Chinese benchmarks. |
+  | Claude | Anthropic's Claude models (claude-sonnet-4-20250514, claude-3-5-haiku, etc.) with strong reasoning and multilingual capabilities. Requires `pip install anthropic`. API key via `ANTHROPIC_AUTH_TOKEN` env var; base URL via `ANTHROPIC_BASE_URL` env var. |
   | ***Local Deploy***|
   | LLaMA3-Instruct series| Meta's series of large language models, with tens to hundreds of billions of parameters, have shown advanced performance on industry-standard benchmarks. |
   | Qwen2.5-Instruct series| LLMs developed by the Qwen team, come in various parameter sizes and exhibit strong capabilities in both English and Chinese. |
@@ -647,10 +648,18 @@ In practice, you can use the YAML file configuration to employ various LLMs:
   For exmaple:
   ```yaml
   model:
-    category: DeepSeek # model category, chosen from ChatGPT and  DeepSeek
+    category: DeepSeek # model category, chosen from ChatGPT, DeepSeek, and Claude
     model_name_or_path: deepseek-chat # model name, chosen from deepseek-chat and deepseek-reasoner. Choose deepseek-chat to use DeepSeek-V3 or choose deepseek-reasoner to use DeepSeek-R1.
     api_key: your_api_key # your API key for the model with API service.
     base_url: https://api.deepseek.com # base URL for the API service. No need for open-source models.
+  ```
+  For Claude (Anthropic), you can set credentials via environment variables instead of the YAML file:
+  ```yaml
+  model:
+    category: Claude
+    model_name_or_path: claude-sonnet-4-20250514 # or claude-3-5-haiku-20241022, etc.
+    api_key: ""  # leave empty to use ANTHROPIC_AUTH_TOKEN env var
+    base_url: ""  # leave empty to use ANTHROPIC_BASE_URL env var
   ```
 - **Local Deploy**: Set the `model_name_or_path` to either the model name on Hugging Face or the path to the local model. We support using either `Transformer` or `vllm` to access the models.
   - Transformer Example:

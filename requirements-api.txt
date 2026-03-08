@@ -1,7 +1,9 @@
+# OneKE requirements for API-only mode (no local model serving)
+# Excludes: vllm (Linux-only), bitsandbytes (Windows-incompatible)
+# Both are only needed for local model deployment, not for API-based inference.
 accelerate==1.1.1
 anthropic>=0.39.0
 beautifulsoup4==4.12.3
-bitsandbytes==0.45.0
 chardet>=5.2.0
 docx2txt==0.9
 fastapi>=0.115.6
@@ -44,4 +46,3 @@ transformers==4.44.0
 tqdm==4.67.1
 typing-extensions==4.12.2
 uvicorn>=0.32.1
-vllm==0.6.0
