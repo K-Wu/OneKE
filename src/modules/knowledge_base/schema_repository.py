@@ -121,6 +121,7 @@ class NarrativeEvent(BaseModel):
     temporal: str = Field(description="When it happens: explicit time reference from the text, or 'unspecified'")
     location: str = Field(description="Where it happens: explicit location from the text, or 'unspecified'")
     importance: str = Field(description="'major' if plot-critical, 'minor' otherwise")
+    approximate_position: float = Field(description="Approximate position of this event within the input text, from 0.0 (very beginning) to 1.0 (very end). Estimate based on where the event's text appears relative to the full passage.")
 
 class NarrativeEventList(BaseModel):
     events: List[NarrativeEvent] = Field(description="Chronological list of narrative events extracted from the text")
