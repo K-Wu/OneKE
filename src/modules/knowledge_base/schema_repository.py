@@ -135,3 +135,12 @@ class ReaderReaction(BaseModel):
 
 class ReaderReactionList(BaseModel):
     reactions: List[ReaderReaction] = Field(description="List of reader reactions extracted from WeRead comments")
+
+# ------------- Narrative Turning Points (Cyberpunk thesis Fig. 8) ------------- #
+class NarrativeTurningPoint(BaseModel):
+    narrative: str = Field(description="Brief description of the narrative turning point or key plot event")
+    emotion: float = Field(description="Emotional level from -1.0 (most negative) to 1.0 (most positive)")
+    reasons: str = Field(description="Reasoning for the assigned emotion level")
+
+class NarrativeTurningPointList(BaseModel):
+    turning_points: List[NarrativeTurningPoint] = Field(description="Exactly 10 most important narrative turning points from the opening chapters, in chronological order")
