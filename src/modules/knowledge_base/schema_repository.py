@@ -144,3 +144,18 @@ class NarrativeTurningPoint(BaseModel):
 
 class NarrativeTurningPointList(BaseModel):
     turning_points: List[NarrativeTurningPoint] = Field(description="Exactly 10 most important narrative turning points from the opening chapters, in chronological order")
+
+# ------------- Multi-Factor Emotion Annotation (Scherer CPM + SCoT) ------------- #
+class MultiFactorAnnotation(BaseModel):
+    narrative: str = Field(description="Brief description of the narrative turning point")
+    event_appraisal_rationale: str = Field(description="2-sentence rationale for the objective event's impact on protagonist's goals")
+    event_appraisal: int = Field(description="1-7 scale: 1=catastrophic/motive-inconsistent, 4=neutral, 7=euphoric/motive-consistent")
+    lexical_signal_rationale: str = Field(description="2-sentence rationale quoting specific words/imagery that set the emotional tone")
+    lexical_signal: int = Field(description="1-7 scale: 1=highly dysphoric/dark prose, 4=clinical/neutral, 7=highly euphoric/transcendent")
+    internal_state_rationale: str = Field(description="2-sentence rationale for the protagonist's cognitive arousal and coping ability")
+    internal_state: int = Field(description="1-7 scale: 1=profoundly destabilized/overwhelmed, 4=baseline/centered, 7=ecstatic/transcendent")
+    action_tendency_rationale: str = Field(description="2-sentence rationale describing the protagonist's physical behavioral response")
+    action_tendency: int = Field(description="1-7 scale: 1=extreme avoidance/flight, 4=observation/orienting, 7=extreme approach/fight")
+
+class MultiFactorAnnotationList(BaseModel):
+    annotations: List[MultiFactorAnnotation] = Field(description="Chronological list of narrative turning points with multi-factor emotion ratings")
